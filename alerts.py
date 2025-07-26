@@ -24,4 +24,19 @@ def check_alerts(history):
     if sum(recent_deposits) > 200:
         alerts.append(123)
 
+    #500: deposit & withdrawal within 60 seconds (find if there's any deposit/withdrawal pair within a minute)
+    deposits = [e for e in history if e["type"] == "deposit"]
+    withdrawals = [e for e in history if e["type"] == "withdrawal"]
+    deposit_withdrawal_within_minute = False 
+    for d in deposits:
+        for w in withdrawals:
+            if d["user_id"] == w["user_id"] and d["time"] != w["time"] and abs(d["time"] - w["time"]) <= 60:
+                deposit_withdrawal_within_minute = True
+                break
+        if deposit_withdrawal_within_minute:
+            break 
+    if deposit_withdrawal_within_minute:
+        alerts.append(500)
+
+
     return len(alerts) > 0, alerts
