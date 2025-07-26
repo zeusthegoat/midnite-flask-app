@@ -55,4 +55,4 @@ This simulates a customer making three consecutive, increasing withdrawals - res
 - Data validation checks are included; invalid/missing fields result in 400 errors.
 - I added event history limiting so as to prevent user history growing indefinitely
 
-I had a lot of fun doing this and it's already got me thinking of the different implementations and conditions that are built into th ebackend of the actual product!!
+I had a lot of fun doing this and it's already got me thinking of the different implementations and conditions that are built into th ebackend of the actual product!
