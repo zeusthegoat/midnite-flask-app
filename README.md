@@ -57,3 +57,4 @@ This simulates a customer making three consecutive, increasing withdrawals - res
 
 # Updates
 Added another alert function which triggers if a deposit/withdrawal pair happen with a minute of eachother
+Added html file to display a simple frontend when server is running which can be used to test endpoint - http://127.0.0.1:5000 

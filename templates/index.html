@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Midnite Alert API Tester</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .container { max-width: 400px; margin: auto; }
+        label { display: block; margin-top: 10px; }
+        input, select { width: 100%; padding: 6px; margin-bottom: 10px; }
+        button { width: 100%; padding: 10px; }
+        pre { background: #f0f0f0; padding: 8px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Test Midnite /event Endpoint</h2>
+    <form id="alertForm">
+        <label>Type:</label>
+        <select id="type" required>
+            <option value="deposit">deposit</option>
+            <option value="withdrawal">withdrawal</option>
+        </select>
+        <label>Amount:</label>
+        <input type="number" step="any" id="amount" required>
+        <label>User ID:</label>
+        <input type="number" id="user_id" required>
+        <label>Time (UNIX seconds):</label>
+        <input type="number" id="time" required>
+        <label>API Key:</label>
+        <input type="text" id="apikey" required>
+        <button type="submit">Send Event</button>
+    </form>
+    <h3>Response:</h3>
+    <pre id="response"></pre>
+</div>
+<script>
+document.getElementById('alertForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const type = document.getElementById('type').value;
+    const amount = document.getElementById('amount').value;
+    const user_id = document.getElementById('user_id').value;
+    const time = document.getElementById('time').value;
+    const apikey = document.getElementById('apikey').value;
+
+    const payload = { type, amount, user_id: Number(user_id), time: Number(time) };
+
+    const responseElem = document.getElementById('response');
+    responseElem.textContent = 'Sending...';
+
+    try {
+        const res = await fetch('http://127.0.0.1:5000/event', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': apikey
+            },
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        responseElem.textContent = JSON.stringify(data, null, 2);
+    } catch (err) {
+        responseElem.textContent = 'Error: ' + err;
+    }
+});
+</script>
+</body>
+</html>

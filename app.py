@@ -1,8 +1,13 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from alerts import check_alerts
+from auth import check_api_key
 
 app = Flask(__name__)
 user_history = {}
+
+@app.route("/")
+def home():
+    return render_template("index.html")
 
 @app.route("/status", methods=["GET"])
 def status():
@@ -13,6 +18,10 @@ def status():
 
 @app.route("/event", methods=["post"])
 def handle_event():
+    auth_error = check_api_key()
+    if auth_error:
+        return auth_error
+
     data = request.get_json()
     
     if not data:

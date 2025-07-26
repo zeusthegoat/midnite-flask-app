@@ -37,6 +37,6 @@ def check_alerts(history):
             break 
     if deposit_withdrawal_within_minute:
         alerts.append(500)
-
+        
 
     return len(alerts) > 0, alerts
