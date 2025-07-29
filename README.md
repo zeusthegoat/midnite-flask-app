@@ -52,11 +52,6 @@ Alerts are modularised within the alerts/ directory. The following are implement
 # Example test case
 curl -X POST http://127.0.0.1:5000/event \
 -H "Content-Type: application/json" \
--H "x-api-key: zeusthegoat" \ 
--d '{"type": "deposit", "amount": "30", "user_id": 4, "time": 1}'
-
-curl -X POST http://127.0.0.1:5000/event \
--H "Content-Type: application/json" \
 -H "x-api-key: zeusthegoat" \
 -d '{"type": "deposit", "amount": "50", "user_id": 4, "time": 2}'
 
@@ -64,6 +59,11 @@ curl -X POST http://127.0.0.1:5000/event \
 -H "Content-Type: application/json" \
 -H "x-api-key: zeusthegoat" \
 -d '{"type": "deposit", "amount": "90", "user_id": 4, "time": 3}'
+
+curl -X POST http://127.0.0.1:5000/event \
+-H "Content-Type: application/json" \
+-H "x-api-key: zeusthegoat" \
+-d '{"type": "deposit", "amount": "110", "user_id": 4, "time": 4}'
 
 Should return the following after running the third curl statement:
 {
