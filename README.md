@@ -37,11 +37,11 @@ Start server (python app.py) - should start & listen on http://127.0.0.1:5000
 
 # Alert Rules
 Alerts are modularised within the alerts/ directory. The following are implemented:
-1100 - Single withdrawal larger than £100
-30 - Three consecutive withdrawals
-300 - Three consecutive deposits, increasing in size
-123 - Total withdrawals > £200 in the last 30 seconds
-500 - Deposit & withdrawal pair within 60 seconds
+- 1100 - Single withdrawal larger than £100
+- 30 - Three consecutive withdrawals
+- 300 - Three consecutive deposits, increasing in size
+- 123 - Total withdrawals > £200 in the last 30 seconds
+- 500 - Deposit & withdrawal pair within 60 seconds
 
 # Example test case
 curl -X POST http://127.0.0.1:5000/event \
