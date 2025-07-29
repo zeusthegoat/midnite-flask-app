@@ -5,6 +5,12 @@ This project implements an API endpoint to monitor user deposit and withdrawal e
 Python 3.7, Flask
 
 # Setup Instructions
+# Option 1 (recommended)
+Pull latest docker image:
+docker pull zeusthegoat/midnite-alert-api:latest
+docker run -p 5000:5000 zeusthegoat/midnite-alert-api
+
+# Option 2
 Clone the repository:
 git clone https://github.com/zeusthegoat/midnite-alert-api.git
 cd midnite-alert-api
