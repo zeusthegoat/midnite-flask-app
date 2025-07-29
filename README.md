@@ -76,12 +76,12 @@ This simulates a customer making three consecutive, increasing withdrawals - res
 - Designed to be easy to containerise or expand further with additional rules or database integrations.
 
 # Updates
-🧱 Modular alert rules (each in its own file under alerts/)
-🛡️ Data validation and graceful error responses
-📉 In-memory event history capped at 10 events per user
-📝 Logging for server and event flow visibility
-🧪 Unit test support with pytest
-🔌 Status route for health checks
+Modular alert rules (each in its own file under alerts/)
+Data validation and graceful error responses
+In-memory event history capped at 10 events per user
+Logging for server and event flow visibility
+Unit test support with pytest
+Status route for health checks
 
 # Running unit tests
 Tests live in tests/ directory. Run with "pytest"
