@@ -1,5 +1,5 @@
 # Project Overview
-This project implements an API endpoint to monitor user deposit and withdrawal events for demo gaming site, triggering alerts for potentially unusual activity as specified in the take-home test doc
+This project implements an API endpoint to monitor user deposit and withdrawal events for a demo gaming site, triggering alerts for potentially unusual activity 
 
 # Requirements
 Python 3.7, Flask
@@ -35,6 +35,14 @@ Start server (python app.py) - should start & listen on http://127.0.0.1:5000
 
 /status for basic health check. Returns message if server is live. 
 
+# Alert Rules
+Alerts are modularised within the alerts/ directory. The following are implemented:
+1100 - Single withdrawal larger than £100
+30 - Three consecutive withdrawals
+300 - Three consecutive deposits, increasing in size
+123 - Total withdrawals > £200 in the last 30 seconds
+500 - Deposit & withdrawal pair within 60 seconds
+
 # Example test case
 curl -X POST http://127.0.0.1:5000/event \
 -H "Content-Type: application/json" \
@@ -61,14 +69,6 @@ Should return the following after running the third curl statement:
 }
 
 This simulates a customer making three consecutive, increasing withdrawals - results in a 300 alert being thrown
-
-# Alert Rules
-Alerts are modularised within the alerts/ directory. The following are implemented:
-1100 - Single withdrawal larger than £100
-30 - Three consecutive withdrawals
-300 - Three consecutive deposits, increasing in size
-123 - Total withdrawals > £200 in the last 30 seconds
-500 - Deposit & withdrawal pair within 60 seconds
 
 # Notes 
 - Data is stored in-memory for simplicity; in production, a persistent store (e.g. Postgres) would be used.
