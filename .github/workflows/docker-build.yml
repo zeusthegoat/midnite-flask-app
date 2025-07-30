@@ -27,7 +27,6 @@ jobs:
 
       - name: 🧪 Run tests
         run: |
-          source venv/bin/activate
           pytest tests/
 
       - name: 🐳 Set up Docker Buildx
