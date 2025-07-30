@@ -6,14 +6,14 @@ Python 3.7, Flask
 
 # Setup Instructions
 # Option 1 (Use the publicly hosted API - zero setup)
-http://18.133.180.34/
+http://18.171.4.187/
 
 You can immediately access and test all endpoints, such as:
-http://18.133.180.34/event
-http://18.133.180.34/status
+http://18.171.4.187/event
+http://18.171.4.187/status
 
 Example test request:
-curl -X POST http://18.133.180.34/event \
+curl -X POST http://18.171.4.187/event \
   -H "Content-Type: application/json" \
   -H "x-api-key: zeusthegoat" \
   -d '{"type": "deposit", "amount": "50", "user_id": 4, "time": 2}'
@@ -122,4 +122,4 @@ Tests live in tests/ directory. Run with "pytest"
 Each alert rule has its own test file and logic to ensure isolated correctness.
 
 # Optional Frontend
-Visit http://127.0.0.1:5000 or http://18.133.180.34/ to use a basic HTML tester for the /event endpoint (you must be running the server)
+Visit http://127.0.0.1:5000 or http://18.171.4.187/ to use a basic HTML tester for the /event endpoint (you must be running the server)
