@@ -5,12 +5,28 @@ This project implements an API endpoint to monitor user deposit and withdrawal e
 Python 3.7, Flask
 
 # Setup Instructions
-# Option 1 (recommended)
+# Option 1 (Use the publicly hosted API - zero setup)
+http://18.133.180.34/
+
+You can immediately access and test all endpoints, such as:
+http://18.133.180.34/event
+http://18.133.180.34/status
+
+Example test request:
+curl -X POST http://18.133.180.34/event \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: zeusthegoat" \
+  -d '{"type": "deposit", "amount": "50", "user_id": 4, "time": 2}'
+
+
+# Option 2 (Run locally with docker)
 Pull latest docker image:
 docker pull zeusthegoat/midnite-alert-api:latest
 docker run -p 5000:5000 zeusthegoat/midnite-alert-api
 
-# Option 2
+Then access API at: http://127.0.0.1:5000/
+
+# Option 3 (Manual local setup)
 Clone the repository:
 git clone https://github.com/zeusthegoat/midnite-alert-api.git
 cd midnite-alert-api
@@ -88,10 +104,22 @@ This simulates a customer making three consecutive, increasing withdrawals - res
 - Logging for server and event flow visibility
 - Unit test support with pytest
 - Status route for health checks
+- Containerized with Docker:
+  The app is now fully containerized with Docker, enabling easy portability and consistent runtime environments across development, testing, and production.
+- Infrastructure as Code with Terraform:
+  Cloud infrastructure, including the EC2 instance used for deployment, is provisioned and managed declaratively via Terraform. This allows repeatable, version-controlled environment setup and easier collaboration.
+- Automated CI/CD Pipeline with GitHub Actions:
+  GitHub Actions workflows automate building, testing, and publishing the Docker image on every push to main (predominantly because my os is too old to support Docker so I needed a realible way to publish the Docker image lol). Another workflow automatically deploys the updated image to the EC2 instance.
+  This setup ensures:
+   - Continuous integration with automated tests.
+   - Continuous deployment to a live server.
+   - Versioning and audit trails for both app code and infrastructure changes.
+- Improved Developer Experience:
+  Developers can now run the app locally using Docker or use the publicly deployed API running on EC2, reducing setup complexity and environment inconsistencies.
 
 # Running unit tests
 Tests live in tests/ directory. Run with "pytest"
 Each alert rule has its own test file and logic to ensure isolated correctness.
 
 # Optional Frontend
-Visit http://127.0.0.1:5000 to use a basic HTML tester for the /event endpoint (you must be running the server)
+Visit http://127.0.0.1:5000 or http://18.133.180.34/ to use a basic HTML tester for the /event endpoint (you must be running the server)
