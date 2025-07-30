@@ -49,7 +49,7 @@ document.getElementById('alertForm').addEventListener('submit', async function(e
     responseElem.textContent = 'Sending...';
 
     try {
-        const res = await fetch('http://127.0.0.1:5000/event', {
+        const res = await fetch('http://18.171.4.187/event', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
