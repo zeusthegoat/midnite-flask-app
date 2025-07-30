@@ -28,8 +28,8 @@ Then access API at: http://127.0.0.1:5000/
 
 # Option 3 (Manual local setup)
 Clone the repository:
-git clone https://github.com/zeusthegoat/midnite-alert-api.git
-cd midnite-alert-api
+git clone https://github.com/zeusthegoat/midnite-flask-app.git
+cd midnite-flask-app
 
 Create virtual env:
 python3 -m venv venv
