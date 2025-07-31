@@ -20,7 +20,7 @@ def status():
         "message": "Midnite alert API is running"
     }, 200
 
-@app.route("/event", methods=["post"])
+@app.route("/event", methods=["POST"])
 def handle_event():
     logger.info("Receivend /event request")
 
