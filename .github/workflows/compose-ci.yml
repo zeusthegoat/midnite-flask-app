@@ -26,11 +26,11 @@ jobs:
       - name: ⏳ Wait for Flask app to start
         run: |
           sleep 5 
-          curl --fail http://18.171.4.187/status
+          curl --fail http://web:5000/status
 
       - name: ✅ Run test event (optional)
         run: |
-            curl -X POST http://18.171.4.187/event \
+            curl -X POST http://web:5000/event \
               -H "Content-Type: application/json" \
               -H "x-api-key: zeusthegoat" \
               -d '{"type": "deposit", "amount": "50", "user_id": 4, "time": 2}'
