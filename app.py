@@ -6,6 +6,7 @@ from logger import setup_logger
 logger = setup_logger("midnite-api")
 
 app = Flask(__name__)
+metrics = PrometheusMetrics(app)
 user_history = {}
 
 @app.route("/")
@@ -60,9 +61,6 @@ def handle_event():
     except Exception as e:
         logger.exception("Error during alert check for user %s: %s", user_id, str(e))
         return jsonify({"error": "Internal server error"}), 500
-    
-app = Flask(__name__)
-metrics = PrometheusMetrics(app)
 
 if __name__ == "__main__":
     print("Starting flask app...")
