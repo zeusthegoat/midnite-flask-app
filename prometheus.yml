@@ -1,7 +1,7 @@
 global:
   scrape_interval: 5s
 
-scrape_congigs:
+scrape_configs:
   - job_name: 'flask_app'
     static_configs:
       - targets: ['web:5000']
