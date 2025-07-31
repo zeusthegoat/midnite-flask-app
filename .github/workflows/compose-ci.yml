@@ -1,0 +1,42 @@
+name: CI - Multi-Container Compose Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  compose-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v3
+
+      - name: 🐳 Set up Docker
+        uses: docker/setup-buildx-action@v3
+
+      - name: 🧱 Build Docker Compose services
+        run: docker compose -f docker-compose.yml build
+
+      - name: 🚀 Start services in detached mode
+        run: docker compose -f docker-compose.yml up -d
+
+      - name: ⏳ Wait for Flask app to start
+        run: |
+          sleep 5 
+          curl --fail http://localhost:5000/status
+
+      - name: ✅ Run test event (optional)
+        run: |
+            curl -X POST http://localhost:5000/event \
+              -H "Content-Type: application/json" \
+              -H "x-api-key: zeusthegoat" \
+              -d '{"type": "deposit", "amount": "50", "user_id": 4, "time": 2}'
+
+      - name: 📦 Show Prometheus and Grafana containers are running
+        run: docker ps
+
+      - name: 🧼 Stop and clean up containers
+        run: docker compose -f docker-compose.yml down
