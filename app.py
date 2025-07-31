@@ -1,6 +1,7 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, Response
 from alerts import check_alerts
 from auth import check_api_key
+from prometheus_flask_exporter import PrometheusMetrics
 from logger import setup_logger
 logger = setup_logger("midnite-api")
 
@@ -59,6 +60,9 @@ def handle_event():
     except Exception as e:
         logger.exception("Error during alert check for user %s: %s", user_id, str(e))
         return jsonify({"error": "Internal server error"}), 500
+    
+app = Flask(__name__)
+metrics = PrometheusMetrics(app)
     
 app.run(host="0.0.0.0", port=5000)
 
