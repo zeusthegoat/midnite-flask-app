@@ -63,9 +63,7 @@ def handle_event():
     
 app = Flask(__name__)
 metrics = PrometheusMetrics(app)
-    
-app.run(host="0.0.0.0", port=5000)
 
 if __name__ == "__main__":
     print("Starting flask app...")
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
