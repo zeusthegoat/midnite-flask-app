@@ -116,6 +116,9 @@ This simulates a customer making three consecutive, increasing withdrawals - res
    - Versioning and audit trails for both app code and infrastructure changes.
 - Improved Developer Experience:
   Developers can now run the app locally using Docker or use the publicly deployed API running on EC2, reducing setup complexity and environment inconsistencies.
+- Monitoring with Prometheus and Grafana
+  Includes integrated observability using Prometheus for metrics collection and Grafana for visualization.
+  prometheus_client is used in the Flask app to expose internal metrics at /metrics
 
 # Running unit tests
 Tests live in tests/ directory. Run with "pytest"
