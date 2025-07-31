@@ -23,14 +23,13 @@ jobs:
       - name: 🚀 Start services in detached mode
         run: docker compose -f docker-compose.yml up -d
 
-      - name: ⏳ Wait for Flask app to start
+      - name: 🚀 Wait for app to be ready and test
         run: |
-          sleep 5 
-          curl --fail http://web:5000/status
+          docker compose exec -T web curl --fail http://localhost:5000/status
 
       - name: ✅ Run test event (optional)
         run: |
-            curl -X POST http://web:5000/event \
+            docker compose exec -T web curl -X POST http://localhost:5000/event \
               -H "Content-Type: application/json" \
               -H "x-api-key: zeusthegoat" \
               -d '{"type": "deposit", "amount": "50", "user_id": 4, "time": 2}'
