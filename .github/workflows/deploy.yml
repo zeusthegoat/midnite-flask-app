@@ -25,9 +25,9 @@ jobs:
             git pull origin main
 
             echo "Building latest Flask app image..."
-            docker-compose build web
+            docker compose build web
 
             echo "Deploying only the Flask app container..."
-            docker-compose up -d --no-deps --build web
+            docker compose up -d --no-deps --build web
 
             echo "✅ Flask app deployment complete."
