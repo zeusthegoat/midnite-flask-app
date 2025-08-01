@@ -125,4 +125,4 @@ Tests live in tests/ directory. Run with "pytest"
 Each alert rule has its own test file and logic to ensure isolated correctness.
 
 # Optional Frontend
-Visit http://127.0.0.1:5000 or http://18.171.4.187/ to use a basic HTML tester for the /event endpoint..
+Visit http://127.0.0.1:5000 or http://18.171.4.187/ to use a basic HTML tester for the /event endpoint
