@@ -1,0 +1,20 @@
+groups:
+  - name: flask-alerts
+    rules:
+      - alert: AppDown
+        expr: up{job="flask"} == 0
+        for: 30s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Flask app is down"
+          description: "The Flask app has been unreachable for more than 30s."
+
+      - alert: HighErrorRate
+        expr: rate(flask_http_request_total{status=~"5.."}[1m]) > 0.1
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High error rate"
+          description: "More than 10% of HTTP responses are 5xx errors"

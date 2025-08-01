@@ -1,0 +1,17 @@
+global:
+  smtp_smarthost: 'smtp.gmail.com:587'
+  smtp_from: 'niklausantonio@gmail.com'
+  smtp_auth_username: 'niklausantonio@gmail.com'
+  smtp_auth_password: 'cwfy nftu sgod wnat'
+  smtp_require_tls: true
+
+route:
+  receiver: email-alert
+  group_wait: 10s
+  group_interval: 30s
+  repeat_interval: 5m
+
+receivers:
+  - name: email-alert
+    email_configs:
+      - to: 'niklausantonio@gmail.com'

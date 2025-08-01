@@ -39,6 +39,15 @@ services:
     networks:
       - monitoring
 
+  alertmanager:
+    image: prom/alertmanager
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    networks:
+      - monitoring
+
 volumes:
   grafana_data:
   postgres_data:
