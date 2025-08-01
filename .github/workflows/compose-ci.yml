@@ -27,7 +27,7 @@ jobs:
         run: |
           for i in {1..10}; do
             echo "Attempt $i: Checking if app is up..."
-            if docker compose exec -T web curl --fail http://18.171.4.187/status; then
+            if docker compose exec -T web curl --fail http://localhost:5000/status; then
               echo "✅ App is ready!"
               exit 0
           fi

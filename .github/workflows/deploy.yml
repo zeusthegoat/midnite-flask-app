@@ -3,7 +3,7 @@ name: Deploy to EC2 on push
 on:
   push:
     branches:
-      - main  
+      - main
 
 jobs:
   deploy:
@@ -13,25 +13,24 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: SSH into EC2 and deploy Docker container
+      - name: SSH into EC2 and deploy Flask app only
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            echo "Pulling latest Docker image..."
-            docker pull zeusthegoat/midnite-alert-api:latest
+            cd midnite-flask-app
+            echo "Pulling latest changes..."
+            git pull origin main
 
-            echo "Stopping and removing old container..."
-            docker stop midnite-flask-app || true
-            docker rm midnite-flask-app || true
+            echo "Building latest Flask app image..."
+            docker-compose build web
 
-            echo "Starting new container..."
-            docker run -d \
-              --name midnite-flask-app \
-              -p 80:5000 \
-              zeusthegoat/midnite-alert-api:latest
+            echo "Deploying only the Flask app container..."
+            docker-compose up -d --no-deps --build web
+
+            echo "✅ Flask app deployment complete."
 
       - name: Seed database on EC2
         uses: appleboy/ssh-action@v1.0.0
@@ -42,6 +41,3 @@ jobs:
           script: |
             cd midnite-flask-app
             python3 seed.py
- 
-
-            echo "✅ Deploy complete."
