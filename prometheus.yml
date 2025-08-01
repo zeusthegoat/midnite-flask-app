@@ -11,5 +11,5 @@ scrape_configs:
 
 alerting:
   alertmanagers:
-    = static_configs:
+    - static_configs:
         - targets: ["alertmanager:9093"]
