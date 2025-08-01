@@ -11,6 +11,7 @@ services:
   prometheus:
     image : prom/prometheus
     volumes:
+      - prometheus_data:/prometheus
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
       - ./alert-rules.yml:/etc/prometheus/alert-rules.yml
     ports:
@@ -52,6 +53,7 @@ services:
 volumes:
   grafana_data:
   postgres_data:
+  prometheus_data:
 
 networks:
   monitoring:
