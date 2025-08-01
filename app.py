@@ -67,7 +67,7 @@ def handle_event():
         recent_events = (
             session.query(Event)
             .filter_by(user_id=user_id)
-            .order_by(Event.time.desc())
+            .order_by(Event.timestamp.desc())
             .limit(10)
             .all()
         )
