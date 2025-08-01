@@ -22,6 +22,9 @@ jobs:
 
       - name: 🚀 Start services in detached mode
         run: docker compose -f docker-compose.yml up -d
+        
+      - name: Docker logs for web
+        run: docker compose logs web
 
       - name: ✅ Wait for Flask app to be ready
         run: |
