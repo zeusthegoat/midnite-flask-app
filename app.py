@@ -76,9 +76,9 @@ def handle_event():
         event_history = [
             {
                 "user_id": e.user_id,
-                "type": e.type,
+                "type": e.event_type,
                 "amount": str(e.amount),
-                "time": e.time
+                "time": e.timestamp
             }
             for e in reversed(recent_events)  # Reversed to get chronological order
         ]
