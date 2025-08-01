@@ -33,4 +33,15 @@ jobs:
               -p 80:5000 \
               zeusthegoat/midnite-alert-api:latest
 
+      - name: Seed database on EC2
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd midnite-flask-app
+            python3 seed.py
+ 
+
             echo "✅ Deploy complete."
