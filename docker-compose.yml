@@ -24,5 +24,21 @@ services:
     networks:
       - monitoring
 
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: midnite
+      POSTGRES_USER: midnite_user
+      POSTGRES_PASSWORD: midnite_pass
+    ports: 
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - monitoring
+
+volumes:
+  postgres_data:
+
 networks:
   monitoring:

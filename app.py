@@ -2,12 +2,21 @@ from flask import Flask, request, jsonify, render_template, Response
 from alerts import check_alerts
 from auth import check_api_key
 from prometheus_flask_exporter import PrometheusMetrics
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session as SessionType
+from sqlalchemy import create_engine
+from models import Event, Base
 from logger import setup_logger
 logger = setup_logger("midnite-api")
 
 app = Flask(__name__)
+DATABASE_URL = "postgresql://midnite_user:midnite_pass@db:5432/midnite"
+
+engine = create_engine(DATABASE_URL)
+Base.metadata.create_all(engine)
+Session = sessionmaker(bind=engine)
+
 metrics = PrometheusMetrics(app)
-user_history = {}
 
 @app.route("/")
 def home():
@@ -41,25 +50,48 @@ def handle_event():
         logger.error("Missing user_id in payload")
         return jsonify({"error": "Missing user_id"}), 400
     
-    if user_id not in user_history:
-        logger.info("New user_id detected: %s", user_id)
-        user_history[user_id] = []
-
-    user_history[user_id].append(data)
-    user_history[user_id] = user_history[user_id][-10:]
-    logger.debug("Updated user history for %s: %s", user_id, user_history[user_id])
-
+    # Save event to DB
     try:
-        alert, alert_code = check_alerts(user_history[user_id])
-        logger.info("Alert check complete for %s - Alert: %s, Codes: %s", user_id, alert, alert_code)
+        with Session() as session:   # Using context manager to prevent session issues
+            event = Event(
+                user_id=user_id,
+                event_type=data["type"],
+                amount=float(data["amount"]),
+                timestamp=int(data["time"])
+        )
+        session.add(event)
+        session.commit()
+
+        # Fetching latest 10 events for this user
+        recent_events = (
+            session.query(Event)
+            .filter_by(user_id=user_id)
+            .order_by(Event.time.desc())
+            .limit(10)
+            .all()
+        )
+
+        # Converting to list of dicts for alert logic
+        event_history = [
+            {
+                "user_id": e.user_id,
+                "type": e.type,
+                "amount": str(e.amount),
+                "time": e.time
+            }
+            for e in reversed(recent_events)  # Reversed to get chronological order
+        ]
+
+        alert, alert_code = check_alerts(event_history)
 
         return jsonify({
             "alert": alert,
             "alert_code": alert_code,
             "user_id": user_id
         })
+
     except Exception as e:
-        logger.exception("Error during alert check for user %s: %s", user_id, str(e))
+        logger.exception("Error during DB operation or alert check: %s", str(e))
         return jsonify({"error": "Internal server error"}), 500
 
 if __name__ == "__main__":
