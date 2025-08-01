@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, render_template, Response
 from alerts import check_alerts
 from auth import check_api_key
 from prometheus_flask_exporter import PrometheusMetrics
+from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import Session as SessionType
 from sqlalchemy import create_engine
@@ -13,7 +14,7 @@ app = Flask(__name__)
 DATABASE_URL = "postgresql://midnite_user:midnite_pass@db:5432/midnite"
 
 engine = create_engine(DATABASE_URL)
-Base.metadata.create_all(engine)
+# Base.metadata.create_all(engine) #
 Session = sessionmaker(bind=engine)
 
 metrics = PrometheusMetrics(app)
@@ -90,6 +91,9 @@ def handle_event():
             "user_id": user_id
         })
 
+    except OperationalError:
+        logger.error("Database connection error")
+        return jsonify({"error": "Database is unavailable"}), 503
     except Exception as e:
         logger.exception("Error during DB operation or alert check: %s", str(e))
         return jsonify({"error": "Internal server error"}), 500
