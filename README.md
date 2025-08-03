@@ -104,7 +104,7 @@ This simulates a customer making three consecutive, increasing withdrawals - res
 - Logging for server and event flow visibility
 - Unit test support with pytest
 - Status route for health checks
-- Containerized with Docker:
+- Containerised with Docker:
   The app is now fully containerized with Docker, enabling easy portability and consistent runtime environments across development, testing, and production.
 - Infrastructure as Code with Terraform:
   Cloud infrastructure, including the EC2 instance used for deployment, is provisioned and managed declaratively via Terraform. This allows repeatable, version-controlled environment setup and easier collaboration.
@@ -119,6 +119,12 @@ This simulates a customer making three consecutive, increasing withdrawals - res
 - Monitoring with Prometheus and Grafana
   Includes integrated observability using Prometheus for metrics collection and Grafana for visualization.
   prometheus_client is used in the Flask app to expose internal metrics at /metrics
+- Switched from in-memory event history to storing event history in a persistent postgres DB. 
+- Added custom alerting rules in Prometheus (alert-rules.yml), including:
+   - AppDown alert triggered when the Flask app is unreachable for more than 30 seconds.
+   - HighErrorRate alert triggered when 5xx HTTP errors exceed 10% of total requests in a 1-minute window.
+- Configured Prometheus alerting to forward alerts to Alertmanager for handling and notification.
+- Added an Alertmanager service to the Docker Compose stack to manage alert routing, silencing, and notifications.
 
 # Running unit tests
 Tests live in tests/ directory. Run with "pytest"
