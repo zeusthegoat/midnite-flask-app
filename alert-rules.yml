@@ -2,7 +2,7 @@ groups:
   - name: flask-alerts
     rules:
       - alert: AppDown
-        expr: up{job="fmidnite_app"} == 0
+        expr: up{job="midnite_app"} == 0
         for: 30s
         labels:
           severity: critical
@@ -11,7 +11,7 @@ groups:
           description: "The Midnite app has been unreachable for more than 30s."
 
       - alert: HighErrorRate
-        expr: rate(flask_http_request_total{job ="midnite_app", status=~"5.."}[1m]) > 0.1
+        expr: rate(flask_http_request_total{job="midnite_app", status=~"5.."}[1m]) > 0.1
         for: 1m
         labels:
           severity: warning
